@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Message Board</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class = "container">
+        <br>
+        <h1 style="text-align:center; font-weight:bold; color:green"> Dojo Message Board</h1>
+        <hr>
+        <div class ="row" style="margin-left:85px; border: 1px dot blue; border-radius:65px">
+        
+        <div class="col">
+        <br>
+            <% if(messages.messageBoard) { %>
+                <% for (var x of messages.messageBoard) { %>
+                <p style="color:red"><%= x %></p>
+                <% } %>
+            <% } %>
+            <% if(messages.commentBoard) { %>
+                <% for (var x of messages.commentBoard) { %>
+                <p style="color:red"><%= x %></p>
+                <% } %>
+            <% } %>
+            <form  style="margin-left: 105px" action ="/message" method="post" >
+                <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label">Name: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control col-6" id="name" name="name" placeholder="name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="message" class="col-sm-2 col-form-label">Message: </label>
+                    <div class="col-sm-10">
+                        <textarea type="text" class="form-control col-6" id="message" name="message" placeholder="message" rows="6"></textarea>
+                    </div>
+                </div>
+                     <input style="margin-left:45%" type="submit" value ="Post message" class="btn btn-info"> 
+                <br><br>
+            </form>
+            <hr>
+            <div class="messageBoard" style="margin-left: 105px">
+                <% msgs.forEach(function(message) { %>
+                    <h4>Name: <%= message.name %></h4>
+                    <h4>Message: <%= message.message %></h4>
+                <br>
+                    <div class="commentBoard" style="margin-left: 155px">
+                    <% for(var i = 0; i<message.comments.length; i++) { %>
+                        <p>Name: <%= message.comments[i].name %></p>
+                        <p>Comment: <%= message.comments[i].comment %></p>
+                        <br>
+                    <% } %>    
+                        <form  style="margin-left: 155px" action ="/comment" method="post" >
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-2 col-form-label">Name: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control col-4" id="name" name="name" placeholder="name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                            <label for="message" class="col-sm-2 col-form-label">Comment: </label>
+                            <div class="col-sm-10">
+                                <textarea type="text" class="form-control col-4" id="comment" name="comment" placeholder="comment" rows="3"></textarea>
+                            </div>
+                                </div>
+                                <input type="hidden" name="msgId" value="<%=message._id %>">
+                                <input style="margin-left:29%"  type="submit" value ="Post comment" class="btn btn-info"> 
+                            <br>
+                        </form>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
